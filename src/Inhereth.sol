@@ -29,7 +29,7 @@ contract Inhereth {
     /// @notice event triggered when owner withdraws
     /// @param newOwner new owner of the contract
     /// @param newHeir new heir of the contract
-    event Inheritance(address newOwner, address newHeir);
+    event Inherit(address newOwner, address newHeir);
 
     /// @notice caller is not the owner
     /// @dev `msg.sender` != `owner`
@@ -107,7 +107,6 @@ contract Inhereth {
         emit Withdraw(_amount, periodEndAt);
     }
 
-
     /**
      * @notice owner resets the `periodEndsAt`
      * @dev resets the `periodEndAt`
@@ -128,6 +127,6 @@ contract Inhereth {
         heir = _newHeir;
         periodEndAt = block.timestamp + DURATION;
 
-        emit Inheritance(owner, heir);
+        emit Inherit(owner, heir);
     }
 }

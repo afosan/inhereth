@@ -1,3 +1,3 @@
 ## inhereth
 
-Inherit ETH with **inhereth**.
+Inherit ETH with **inhereth**. Built using Foundry.

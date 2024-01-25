@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8;
 
+/**
+ * @title Inhereth
+ * @dev ether inheritance contract
+*/
 contract Inhereth {
     uint256 constant public DURATION = 30 days;
     address public owner;
@@ -50,6 +54,11 @@ contract Inhereth {
         periodEndAt = block.timestamp + DURATION;
     }
 
+    /**
+     * @notice owner withdraws requested amount
+     * @dev withdraws the amount if possible and resets the `periodEndAt`
+     * @param _amount requested withdraw amount
+     */
     function withdraw(uint256 _amount) external onlyOwner periodNotEnded {
         if (address(this).balance < _amount) {
             revert NotEnoughBalance(address(this).balance, _amount);
@@ -61,12 +70,22 @@ contract Inhereth {
         emit Withdraw(_amount, periodEndAt);
     }
 
+
+    /**
+     * @notice owner resets the `periodEndsAt`
+     * @dev resets the `periodEndAt`
+     */
     function resetPeriod() external onlyOwner periodNotEnded {
         periodEndAt = block.timestamp + DURATION;
 
         emit Withdraw(0, periodEndAt);
     }
 
+    /**
+     * @notice heir inherets the contract: becomes the owner and sets its heir
+     * @dev resets the `periodEndAt`
+     * @param _newHeir new heir for the new owner
+     */
     function claimInheritance(address _newHeir) external onlyHeir periodEnded {
         owner = heir;
         heir = _newHeir;

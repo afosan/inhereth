@@ -11,7 +11,7 @@ contract Inhereth {
     /// @notice hardcoded duration of period
     uint256 constant public DURATION = 30 days;
     /// @notice owner of the contract
-    address public owner;
+    address payable public owner;
     /// @notice heir of the contract
     address public heir;
     /// @notice end timestamp of period
@@ -86,7 +86,7 @@ contract Inhereth {
     /// @dev `msg.sender` is the `owner` of the contract
     /// @dev initializes `periodEndAt` as well
     constructor(address _heir) payable {
-        owner = msg.sender;
+        owner = payable(msg.sender);
         heir = _heir;
         periodEndAt = block.timestamp + DURATION;
     }
@@ -102,7 +102,7 @@ contract Inhereth {
         }
 
         periodEndAt = block.timestamp + DURATION;
-        payable(owner).transfer(_amount);
+        owner.transfer(_amount);
 
         emit Withdraw(_amount, periodEndAt);
     }
@@ -123,7 +123,7 @@ contract Inhereth {
      * @param _newHeir new heir for the new owner
      */
     function claimInheritance(address _newHeir) external onlyHeir periodEnded {
-        owner = heir;
+        owner = payable(heir);
         heir = _newHeir;
         periodEndAt = block.timestamp + DURATION;
 
